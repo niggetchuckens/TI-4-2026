@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # --- Databases ---
+  postgres:
+    image: postgres:15-alpine
+    container_name: uct_postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: uct_map_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - uct_network
+
+  mongodb:
+    image: mongo:6-jammy
+    container_name: uct_mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - uct_network
+
+  # --- Microservices ---
+  # The team will add their Dockerfile builds here as they progress
+  # Example:
+  # identity.api:
+  #   build:
+  #     context: .
+  #     dockerfile: src/Services/Identity/Dockerfile
+  #   ports:
+  #     - "5001:80"
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - uct_network
+
+networks:
+  uct_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mongodb_data:
