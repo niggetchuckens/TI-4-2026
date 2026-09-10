@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-// Paleta extraída del diseño login_uct_map.png. Cambiar aquí si la U pasa hex oficiales.
+// Paleta institucional UCT (ver main.dart en taller-4). uctYellow es del diseño login.
 abstract class AppColors {
-  static const uctBlue = Color(0xFF0B4B8F);
-  static const uctGold = Color(0xFF9C8C00);
+  static const uctBlue = Color(0xFF003865);
+  static const uctGold = Color(0xFFEAA221);
   static const uctYellow = Color(0xFFFFC82E);
   static const ink = Color(0xFF111418);
   static const subtitle = Color(0xFF5B6470);

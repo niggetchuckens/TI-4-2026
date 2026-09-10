@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 
-// Pantalla de login (réplica de login_uct_map.png). Sin backend: solo valida y avisa.
+// Pantalla de login (réplica de login_uct_map.png). Sin backend: valida y
+// devuelve true a quien la abrió (la sesión real llega en tarea 3/6).
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -28,13 +29,12 @@ class _LoginPageState extends State<LoginPage> {
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Conexión con API pendiente (tarea 3)')),
-    );
+    Navigator.pop(context, true);
   }
 
   @override
   Widget build(BuildContext context) {
+    final from = ModalRoute.of(context)?.settings.arguments as String?;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -102,10 +102,14 @@ class _LoginPageState extends State<LoginPage> {
                         fontWeight: FontWeight.w800,
                         color: AppColors.ink)),
                 const SizedBox(height: 8),
-                const Text('Explora y navega por el campus de forma fácil',
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 15, color: AppColors.subtitle)),
+                Text(
+                  from == null
+                      ? 'Explora y navega por el campus de forma fácil'
+                      : 'Para acceder a $from inicia sesión',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 15, color: AppColors.subtitle),
+                ),
                 const SizedBox(height: 28),
                 const Text('Correo Electrónico',
                     style: TextStyle(
