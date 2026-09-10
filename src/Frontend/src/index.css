@@ -1,1 +1,52 @@
+@font-face {
+  font-family: 'Rubik';
+  src: url('./assets/fonts/Rubik-VariableFont_wght.ttf') format('truetype');
+  font-weight: 300 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  src: url('./assets/fonts/Rubik-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 300 900;
+  font-style: italic;
+}
+
 @import "tailwindcss";
+
+@theme {
+  --font-sans: 'Rubik', sans-serif;
+  --font-heading: 'Rubik', sans-serif;
+  --color-page-red: #da3134;
+  --color-page-blue: #0077c0;
+  --color-page-yellow: #ffb800;
+  --color-page-dark: #333333;
+  --color-page-white: #ffffff;
+  --color-page-gray-light: #e5e5e5;
+  --color-page-gray-medium: #d4d4d4;
+  --color-page-green: #46b04a;
+}
+
+@keyframes escalator {
+  0% { background-position: 200% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-escalator {
+  background-image: linear-gradient(to right, var(--color-page-blue) 0%, #0093b8 25%, var(--color-page-yellow) 50%, #0093b8 75%, var(--color-page-blue) 100%);
+  background-size: 200% auto;
+  animation: escalator 3s linear infinite;
+}
+
+@keyframes double-pulse-error {
+  0% { background-color: var(--color-page-red); }
+  5% { background-color: #ff8080; }
+  10% { background-color: var(--color-page-red); }
+  15% { background-color: #ff8080; }
+  20% { background-color: var(--color-page-red); }
+  100% { background-color: var(--color-page-red); }
+}
+
+.animate-error-pulse {
+  animation: double-pulse-error 3s ease-in-out infinite;
+}
