@@ -68,3 +68,6 @@ docker-compose.override.yml
 node_modules/
 dist/
 build/
+
+# Directorio espurio generado por las EF Core tools en macOS/Linux
+bin\\Debug/
