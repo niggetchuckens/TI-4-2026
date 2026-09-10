@@ -1,20 +1,24 @@
 import React from 'react';
 import { useImageControls } from '../hooks/useImageControls';
-import { ImageControls } from './ImageControls'; // TUS FLECHAS VISUALES
+import { ImageControls } from './ImageControls';
+import { ImagePagination } from './ImagePagination';
 
 interface ImageGalleryProps {
   images: string[];
   className?: string;
+  width?: string;
+  height?: string;
   autoPlayInterval?: number;
 }
 
 export const ImageGallery = ({
   images = [],
-  className = 'w-[600px] h-[300px]',
+  className = '',
+  width = 'w-full',
+  height = 'h-64',
   autoPlayInterval = 2500,
 }: ImageGalleryProps) => {
 
-  // CORRECCIÓN: Llamamos a useImageControls (con "use")
   const { currentIndex, isManualTransition, next, prev, goTo, pause, resume } =
     useImageControls({
       totalItems: images.length,
@@ -23,7 +27,7 @@ export const ImageGallery = ({
 
   if (!images || images.length === 0) {
     return (
-      <div className={`bg-gray-200 rounded-[2rem] flex items-center justify-center ${className}`}>
+      <div className={`bg-gray-200 rounded-[2rem] flex items-center justify-center flex-shrink-0 ${width} ${height} ${className}`}>
         <span className="text-gray-500 font-medium">No hay imágenes disponibles</span>
       </div>
     );
@@ -31,12 +35,12 @@ export const ImageGallery = ({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-[2rem] shadow-md group ${className}`}
+      className={`relative overflow-hidden rounded-[2rem] shadow-md group flex-shrink-0 ${width} ${height} ${className}`}
       onMouseEnter={pause}
       onMouseLeave={resume}
     >
       <div
-        className="flex w-full h-full"
+        className="absolute inset-0 flex transition-transform duration-500 ease-out"
         style={{
           transform: `translateX(-${currentIndex * 100}%)`,
           transition: isManualTransition
@@ -45,33 +49,26 @@ export const ImageGallery = ({
         }}
       >
         {images.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`Imagen ${index + 1}`}
-            className="w-full h-full object-cover flex-shrink-0"
-          />
+          <div key={index} className="min-w-full h-full flex-shrink-0">
+            <img
+              src={src}
+              alt={`Imagen ${index + 1}`}
+              className="w-full h-full object-cover block select-none pointer-events-none"
+            />
+          </div>
         ))}
       </div>
 
       {images.length > 1 && (
-        <>
-          <ImageControls onPrev={prev} onNext={next} />
-
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur rounded-full px-3 py-1 flex gap-2 items-center shadow-lg">
-            {images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goTo(index)}
-                className={`w-3 h-3 rounded-full transition-all ${
-                  index === currentIndex ? 'bg-black scale-125' : 'bg-gray-400'
-                }`}
-                aria-label={`Ir a imagen ${index + 1}`}
-              />
-            ))}
-          </div>
-        </>
-      )}
+      <>
+        <ImageControls onPrev={prev} onNext={next} />
+        <ImagePagination
+          total={images.length}
+          currentIndex={currentIndex}
+          onSelect={goTo}
+        />
+      </>
+    )}
     </div>
   );
 };

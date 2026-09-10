@@ -17,16 +17,13 @@
 @theme {
   --font-sans: 'Rubik', sans-serif;
   --font-heading: 'Rubik', sans-serif;
-
   --color-page-red: #da3134;
   --color-page-blue: #0077c0;
   --color-page-yellow: #ffb800;
-
   --color-page-dark: #333333;
   --color-page-white: #ffffff;
   --color-page-gray-light: #e5e5e5;
   --color-page-gray-medium: #d4d4d4;
-
   --color-page-green: #46b04a;
 }
 

@@ -7,7 +7,7 @@ interface ImagePaginationProps {
   className?: string;
 }
 
-export const CarouselPagination = ({
+export const ImagePagination = ({
   total,
   currentIndex,
   onSelect,

@@ -1,37 +1,23 @@
 import React, { useState } from 'react';
-import { useImageControls } from '../hooks/useImageControls';
 
 interface PhotoFrameProps {
   src?: string | null;
-  images?: string[];
   alt?: string;
   className?: string;
-  autoPlayInterval?: number;
 }
 
 export const PhotoFrame = ({
   src,
-  images = [],
   alt = 'Foto',
   className = 'w-48 h-48',
-  autoPlayInterval = 0,
 }: PhotoFrameProps) => {
-
-  const imageList = src ? [src] : images;
   const [hasError, setHasError] = useState(false);
 
-  const { currentIndex, next, prev } = useImageControls({
-    totalItems: imageList.length,
-    autoPlayInterval,
-  });
-
-  const currentImage = imageList[currentIndex];
-
   return (
-    <div className={`relative overflow-hidden rounded-2xl bg-page-gray-light flex items-center justify-center flex-shrink-0 group ${className}`}>
-      {currentImage && !hasError ? (
+    <div className={`relative overflow-hidden rounded-2xl bg-page-gray-light flex items-center justify-center flex-shrink-0 ${className}`}>
+      {src && !hasError ? (
         <img
-          src={currentImage}
+          src={src}
           alt={alt}
           className="w-full h-full object-cover transition-all duration-300"
           onError={() => setHasError(true)}
@@ -45,25 +31,6 @@ export const PhotoFrame = ({
         >
           <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
         </svg>
-      )}
-
-      {imageList.length > 1 && (
-        <div className="absolute inset-0 flex items-center justify-between px-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button
-            onClick={prev}
-            className="bg-black/50 text-white rounded-full p-1 hover:bg-black/70"
-            aria-label="Anterior foto"
-          >
-            ‹
-          </button>
-          <button
-            onClick={next}
-            className="bg-black/50 text-white rounded-full p-1 hover:bg-black/70"
-            aria-label="Siguiente foto"
-          >
-            ›
-          </button>
-        </div>
       )}
     </div>
   );
