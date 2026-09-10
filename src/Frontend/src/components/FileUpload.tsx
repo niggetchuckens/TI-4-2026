@@ -3,6 +3,7 @@ import { CloseButton } from './ExitButton';
 import { useImageControls } from '../hooks/useImageControls';
 import { ImageControls } from './ImageControls';
 import { ImagePagination } from './ImagePagination';
+import PhotoIcon from '../assets/svg/icon_photo.svg?react';
 
 interface FileUploadProps {
   label?: string;
@@ -80,11 +81,11 @@ export const FileUpload = ({
       onDrop={handleDrop}
       onMouseEnter={pause}
       onMouseLeave={resume}
-      className={`relative rounded-[18px] overflow-hidden select-none transition-colors flex-shrink-0 ${width} ${height} ${
+      className={`relative rounded-[18px] overflow-hidden select-none transition-colors flex-shrink-0 min-w-[240px] min-h-[160px] ${width} ${height} ${
         files.length === 0
           ? isDragging
             ? 'bg-gray-300 border-2 border-dashed border-page-blue text-page-blue cursor-pointer'
-            : 'bg-[#dfdfdf] text-[#aaaaaa] hover:bg-gray-300 cursor-pointer'
+            : 'bg-[#dfdfdf] text-[#aaaaaa] hover:bg-gray-300 cursor-pointer group'
           : 'bg-black shadow-md'
       } ${className}`}
       onClick={() => {
@@ -101,39 +102,36 @@ export const FileUpload = ({
       />
 
       {files.length === 0 ? (
-        <div className="w-full h-full flex flex-col items-center justify-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z" />
-          </svg>
+        <div className="w-full h-full flex flex-col items-center justify-center gap-3 p-4">
+          <PhotoIcon className={`text-current w-20 h-20 transition-transform duration-300 ${isDragging ? 'scale-110' : 'group-hover:scale-105'}`} />
           <span className="text-base font-medium px-4 text-center">
             {isDragging ? '¡SUELTA LAS IMÁGENES AQUÍ!' : label}
           </span>
         </div>
       ) : (
         <div className="relative w-full h-full overflow-hidden group">
+          <div
+            className="absolute inset-0 flex transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
+            {files.map((file, idx) => (
+              <div key={`${file.name}-${idx}`} className="min-w-full h-full flex-shrink-0">
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt={`Preview ${idx + 1}`}
+                  className="w-full h-full object-cover block select-none pointer-events-none"
+                />
+              </div>
+            ))}
+          </div>
 
-        <div
-          className="absolute inset-0 flex transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        >
-          {files.map((file, idx) => (
-            <div key={`${file.name}-${idx}`} className="min-w-full h-full flex-shrink-0">
-              <img
-                src={URL.createObjectURL(file)}
-                alt={`Preview ${idx + 1}`}
-                className="w-full h-full object-cover block select-none pointer-events-none"
-              />
-            </div>
-           ))}
-        </div>
-
-        <CloseButton
-          onClick={(e) => {
-            e.stopPropagation();
-            handleRemoveImage(currentIndex);
-          }}
-          className="absolute top-3 right-3"
-        />
+          <CloseButton
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveImage(currentIndex);
+            }}
+            className="absolute top-3 right-3"
+          />
 
           {files.length < maxFiles && (
             <button
@@ -160,13 +158,13 @@ export const FileUpload = ({
                   next();
                 }}
               />
-            <ImagePagination
-              total={files.length}
-              currentIndex={currentIndex}
-              onSelect={goTo}
-            />
-          </>
-        )}
+              <ImagePagination
+                total={files.length}
+                currentIndex={currentIndex}
+                onSelect={goTo}
+              />
+            </>
+          )}
         </div>
       )}
     </div>

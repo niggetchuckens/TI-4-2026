@@ -20,21 +20,25 @@ export const SectionButton = ({
     <NavLink
       to={to}
       style={{ '--expanded-width': expandedWidth } as React.CSSProperties}
-      className={() =>
-        `relative flex items-center h-14 rounded-2xl transition-[width] duration-300 ease-in-out cursor-pointer shadow-sm overflow-hidden bg-page-white ${
+      className={({ isActive }) =>
+        `relative flex items-center h-14 rounded-2xl transition-all duration-300 ease-in-out cursor-pointer overflow-hidden ${
           isExpanded ? 'w-[var(--expanded-width)]' : 'w-14'
-        }`
+        } ${
+          isActive ? 'bg-page-white shadow-md' : 'bg-page-white shadow-sm hover:shadow-md'
+        } active:scale-95`
       }
     >
       {({ isActive }) => (
         <>
           {/* ICON CONTAINER */}
-          <div className={`flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-2xl transition-colors duration-200 ${
+          <div className={`flex-shrink-0 flex items-center justify-center w-14 h-14 rounded-2xl transition-colors duration-300 ${
             isActive
               ? 'bg-page-yellow text-page-white'
               : 'bg-transparent text-page-blue'
           }`}>
-            <span className="flex items-center justify-center w-8 h-8">
+            <span className={`flex items-center justify-center w-8 h-8 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+              isActive ? 'scale-110' : 'scale-100 group-hover:scale-105'
+            }`}>
               {icon}
             </span>
           </div>
