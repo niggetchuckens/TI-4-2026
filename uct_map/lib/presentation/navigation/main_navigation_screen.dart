@@ -4,6 +4,7 @@ import '../screens/search/search_screen.dart';
 import '../screens/lost_found/lost_found_screen.dart';
 import '../screens/reports/reports_screen.dart';
 import '../screens/profile/profile_screen.dart';
+import '../screens/login/auth_required_view.dart';
 import '../widgets/uct_logo.dart';
 import '../widgets/custom_drawer.dart';
 
@@ -16,6 +17,10 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _currentIndex = 0;
+  // TODO(tarea 6): reemplazar por sesión real con JWT.
+  bool _authed = false;
+
+  static const _protectedTabs = [2, 3];
 
   final List<String> _titles = const [
     'Mapa del Campus',
@@ -31,6 +36,20 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     });
   }
 
+  Future<void> _openLogin(String section) async {
+    final ok = await Navigator.pushNamed(context, '/login', arguments: section);
+    if (ok == true && mounted) {
+      setState(() {
+        _authed = true;
+      });
+    }
+  }
+
+  Widget _protected(int index, Widget real, String section) {
+    if (_authed || !_protectedTabs.contains(index)) return real;
+    return AuthRequiredView(onLogin: () => _openLogin(section));
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -41,8 +60,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       SearchScreen(
         onExploreMap: () => _onTabTapped(0),
       ),
-      const LostFoundScreen(),
-      const ReportsScreen(),
+      _protected(2, const LostFoundScreen(), 'Objetos perdidos'),
+      _protected(3, const ReportsScreen(), 'Reportes de incidencias'),
       const ProfileScreen(),
     ];
 

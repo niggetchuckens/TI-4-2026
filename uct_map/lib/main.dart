@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'presentation/navigation/main_navigation_screen.dart';
 import 'presentation/screens/professors/professors_screen.dart';
 import 'presentation/screens/reports/reports_screen.dart';
+import 'presentation/screens/login/login_page.dart';
 import 'presentation/screens/lost_found/lost_found_screen.dart';
 
 void main() {
@@ -34,6 +35,7 @@ class UctMapApp extends StatelessWidget {
         '/professors': (context) => const ProfessorsScreen(),
         '/reports': (context) => const ReportsScreen(),
         '/lost-found': (context) => const LostFoundScreen(),
+        '/login': (context) => const LoginPage(),
       },
     );
   }
