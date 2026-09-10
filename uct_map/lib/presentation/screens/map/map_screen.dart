@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});
@@ -8,38 +10,31 @@ class MapScreen extends StatelessWidget {
     return Stack(
       children: [
         // Visor interactivo del mapa (Canvas / WebView / MapLibre / OpenStreetMap)
-        Container(
-          color: Colors.blueGrey.shade50,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.map,
-                  size: 80,
-                  color: Colors.blueGrey.shade300,
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Mapa Interactivo - Campus UCT',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32.0),
-                  child: Text(
-                    'Visualización de edificios, salas, pisos y rutas peatonales.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
+        FlutterMap(
+          options: const MapOptions(
+            initialCenter: LatLng(-38.7359, -72.5904),
+            initialZoom: 16,
+          ),
+          children: [
+            TileLayer(
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              userAgentPackageName: 'cl.cl.uct.uct_map',
+            ),
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: const LatLng(-38.7359, -72.5904),
+                  width: 50,
+                  height: 50,
+                  child: const Icon(
+                    Icons.location_on,
+                    size: 45,
+                    color: Colors.red,
                   ),
                 ),
               ],
             ),
-          ),
+          ],
         ),
 
         // Barra flotante superior: Selector de Campus
@@ -49,7 +44,9 @@ class MapScreen extends StatelessWidget {
           right: 16,
           child: Card(
             elevation: 4,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               child: Row(
@@ -101,7 +98,9 @@ class MapScreen extends StatelessWidget {
                 foregroundColor: Colors.white,
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Centrando en tu ubicación actual...')),
+                    const SnackBar(
+                      content: Text('Centrando en tu ubicación actual...'),
+                    ),
                   );
                 },
                 tooltip: 'Mi ubicación',
@@ -133,7 +132,10 @@ class MapScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               ListTile(
-                leading: const Icon(Icons.location_on, color: Color(0xFF003865)),
+                leading: const Icon(
+                  Icons.location_on,
+                  color: Color(0xFF003865),
+                ),
                 title: const Text('Campus San Juan Pablo II'),
                 subtitle: const Text('Ruta 5 Sur Km 670, Temuco'),
                 trailing: const Icon(Icons.check, color: Colors.green),

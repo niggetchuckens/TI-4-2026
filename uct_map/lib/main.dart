@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'presentation/navigation/main_navigation_screen.dart';
 import 'presentation/screens/professors/professors_screen.dart';
 import 'presentation/screens/reports/reports_screen.dart';
@@ -23,10 +24,7 @@ class UctMapApp extends StatelessWidget {
           primary: const Color(0xFF003865),
           secondary: const Color(0xFFEAA221), // Tono secundario dorado/cálido
         ),
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-          elevation: 0,
-        ),
+        appBarTheme: const AppBarTheme(centerTitle: true, elevation: 0),
       ),
       initialRoute: '/',
       routes: {
