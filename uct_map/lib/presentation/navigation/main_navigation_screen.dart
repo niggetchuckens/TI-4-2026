@@ -5,6 +5,7 @@ import '../screens/lost_found/lost_found_screen.dart';
 import '../screens/reports/reports_screen.dart';
 import '../screens/profile/profile_screen.dart';
 import '../screens/login/auth_required_view.dart';
+import '../../application/session/session_controller.dart';
 import '../widgets/uct_logo.dart';
 import '../widgets/custom_drawer.dart';
 
@@ -17,8 +18,7 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _currentIndex = 0;
-  // TODO(tarea 6): reemplazar por sesión real con JWT.
-  bool _authed = false;
+  final _session = SessionController();
 
   static const _protectedTabs = [2, 3];
 
@@ -36,17 +36,26 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    _session.dispose();
+    super.dispose();
+  }
+
   Future<void> _openLogin(String section) async {
-    final ok = await Navigator.pushNamed(context, '/login', arguments: section);
-    if (ok == true && mounted) {
-      setState(() {
-        _authed = true;
-      });
+    final result =
+        await Navigator.pushNamed(context, '/login', arguments: section);
+    if (result is Map && result['ok'] == true && mounted) {
+      // TODO(tarea 3): sesión real desde el endpoint de auth.
+      _session.signInDemo((result['email'] ?? '').toString());
+      setState(() {});
     }
   }
 
   Widget _protected(int index, Widget real, String section) {
-    if (_authed || !_protectedTabs.contains(index)) return real;
+    if (_session.isAuthenticated || !_protectedTabs.contains(index)) {
+      return real;
+    }
     return AuthRequiredView(onLogin: () => _openLogin(section));
   }
 
