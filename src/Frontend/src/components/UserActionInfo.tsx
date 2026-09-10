@@ -2,13 +2,9 @@ import React from 'react';
 import { Avatar } from './Avatar';
 
 interface UserActionInfoProps {
-  /** Título principal de la acción (ej: "Recuperado por Usuario") */
   title: string;
-  /** Subtítulo secundario (ej: "Hace 12 minutos") */
   subtitle: string;
-  /** URL de la imagen del avatar. Si no se pasa, mostrará un fondo gris. */
   avatarSrc?: string | null;
-  /** Clases adicionales para el contenedor padre */
   className?: string;
 }
 
