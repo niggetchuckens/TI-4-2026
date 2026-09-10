@@ -1,21 +1,21 @@
-import { Button } from './components/Button';
-import { Input } from './components/Input';
-import { Select } from './components/Select';
-import { NavButton } from './components/NavButton';
-import { CheckboxItem } from './components/CheckboxItem';
-import { Tag } from './components/Tag';
-import { Panel } from './components/Panel';
-import { MapMarker } from './components/MapMarker';
-import { IconText } from './components/IconText';
-import { PhotoFrame } from './components/PhotoFrame';
-import { Avatar } from './components/Avatar';
-import { ImageGallery } from './components/ImageGallery';
-import { FileUpload } from './components/FileUpload';
-import { SquareButton } from './components/SquareButton';
-import { SectionButton } from './components/SectionButton';
-import { UserActionInfo } from './components/UserActionInfo';
+import { Button } from '../components/Button';
+import { Input } from '../components/Input';
+import { Select } from '../components/Select';
+import { NavButton } from '../components/NavButton';
+import { CheckboxItem } from '../components/CheckboxItem';
+import { Tag } from '../components/Tag';
+import { Panel } from '../components/Panel';
+import { MapMarker } from '../components/MapMarker';
+import { IconText } from '../components/IconText';
+import { PhotoFrame } from '../components/PhotoFrame';
+import { Avatar } from '../components/Avatar';
+import { ImageGallery } from '../components/ImageGallery';
+import { FileUpload } from '../components/FileUpload';
+import { SquareButton } from '../components/SquareButton';
+import { SectionButton } from '../components/SectionButton';
+import { UserActionInfo } from '../components/UserActionInfo';
 
-function App() {
+export const ShowcaseView = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-12 flex flex-col gap-8 items-center font-sans">
 
@@ -110,6 +110,5 @@ function App() {
       </Panel>
 
     </div>
-  )
-}
-export default App;
+  );
+};
