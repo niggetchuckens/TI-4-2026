@@ -6,7 +6,7 @@ interface AvatarProps {
   className?: string;
 }
 
-export const Avatar = ({ src, alt = 'Avatar de usuario', className = 'w-20 h-20' }: AvatarProps) => {
+export const Avatar = ({ src, alt = 'User Avatar', className = 'w-20 h-20' }: AvatarProps) => {
   const [hasError, setHasError] = useState(false);
 
   return (
@@ -14,8 +14,7 @@ export const Avatar = ({ src, alt = 'Avatar de usuario', className = 'w-20 h-20'
       <div className="w-full h-full rounded-full overflow-hidden bg-page-gray-light flex items-center justify-center">
         {src && !hasError ? (
           <img
-            src={src}
-            alt={alt}
+            src={src} alt={alt}
             className="w-full h-full object-cover"
             onError={() => setHasError(true)}
           />
