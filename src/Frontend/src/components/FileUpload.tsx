@@ -1,6 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { CloseButton } from './ExitButton';
 import { useImageControls } from '../hooks/useImageControls';
+import { useFileUpload } from '../hooks/useFileUpload';
 import { ImageControls } from './ImageControls';
 import { ImagePagination } from './ImagePagination';
 import PhotoIcon from '../assets/svg/icon_photo.svg?react';
@@ -22,9 +23,16 @@ export const FileUpload = ({
   height = 'h-64',
   onFilesChange,
 }: FileUploadProps) => {
-  const [files, setFiles] = useState<File[]>([]);
-  const [isDragging, setIsDragging] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const {
+    files,
+    isDragging,
+    inputRef,
+    handleFiles,
+    handleDrop,
+    handleDragOver,
+    handleDragLeave,
+    handleRemoveImage,
+  } = useFileUpload({ maxFiles, onFilesChange });
 
   const { currentIndex, next, prev, goTo, pause, resume } = useImageControls({
     totalItems: files.length,
@@ -36,43 +44,6 @@ export const FileUpload = ({
       goTo(files.length - 1);
     }
   }, [files.length, currentIndex, goTo]);
-
-  const handleFiles = (incomingFiles: FileList | null) => {
-    if (!incomingFiles) return;
-
-    const validNewFiles = Array.from(incomingFiles).filter((file) =>
-      file.type.startsWith('image/')
-    );
-
-    setFiles((prevFiles) => {
-      const combined = [...prevFiles, ...validNewFiles].slice(0, maxFiles);
-      if (onFilesChange) onFilesChange(combined);
-      return combined;
-    });
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-    handleFiles(e.dataTransfer.files);
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleRemoveImage = (indexToRemove: number) => {
-    setFiles((prevFiles) => {
-      const updated = prevFiles.filter((_, idx) => idx !== indexToRemove);
-      if (onFilesChange) onFilesChange(updated);
-      return updated;
-    });
-  };
 
   return (
     <div
