@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface CheckboxItemProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  desc: string;
+  label?: string;
+  desc?: string;
   icon?: React.ReactNode;
 }
 

@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
 
-interface GalleryControlsProps {
+interface useImageControlsProps {
   totalItems: number;
   autoPlay?: boolean;
   autoPlayInterval?: number;
 }
 
-export const useGalleryControls = ({
+export const useImageControls = ({
   totalItems,
   autoPlay = false,
   autoPlayInterval = 2500,
-}: UseGalleryControlsProps) => {
+}: useImageControlsProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isManualTransition, setIsManualTransition] = useState(false);
@@ -31,7 +31,7 @@ export const useGalleryControls = ({
   }, []);
 
   useEffect(() => {
-    if (totalItems <= 1 || autoPlayInterval <= 0 || isPaused) return;
+    if (!autoPlay || totalItems <= 1 || autoPlayInterval <= 0 || isPaused) return;
 
     const intervalId = setInterval(() => {
       setIsManualTransition(false);

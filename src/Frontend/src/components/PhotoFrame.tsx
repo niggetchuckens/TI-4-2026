@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGalleryControls } from '../hooks/GalleryControls';
+import { useImageControls } from '../hooks/useImageControls';
 
 interface PhotoFrameProps {
   src?: string | null;
@@ -14,13 +14,13 @@ export const PhotoFrame = ({
   images = [],
   alt = 'Foto',
   className = 'w-48 h-48',
-  autoPlayInterval = 0, // Por defecto apagado si es un marco simple
+  autoPlayInterval = 0,
 }: PhotoFrameProps) => {
-  // Lista unificada: si pasaron src único, lo mete al arreglo
+
   const imageList = src ? [src] : images;
   const [hasError, setHasError] = useState(false);
 
-  const { currentIndex, next, prev } = useGalleryControls({
+  const { currentIndex, next, prev } = useImageControls({
     totalItems: imageList.length,
     autoPlayInterval,
   });
@@ -47,7 +47,6 @@ export const PhotoFrame = ({
         </svg>
       )}
 
-      {/* Mini-flechas si el marco tiene más de una imagen */}
       {imageList.length > 1 && (
         <div className="absolute inset-0 flex items-center justify-between px-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <button

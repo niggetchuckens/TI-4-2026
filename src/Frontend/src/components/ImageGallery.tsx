@@ -1,5 +1,6 @@
 import React from 'react';
-import { useGalleryControls } from '../hooks/GalleryControls';
+import { useImageControls } from '../hooks/useImageControls';
+import { ImageControls } from './ImageControls'; // TUS FLECHAS VISUALES
 
 interface ImageGalleryProps {
   images: string[];
@@ -12,8 +13,10 @@ export const ImageGallery = ({
   className = 'w-[600px] h-[300px]',
   autoPlayInterval = 2500,
 }: ImageGalleryProps) => {
+
+  // CORRECCIÓN: Llamamos a useImageControls (con "use")
   const { currentIndex, isManualTransition, next, prev, goTo, pause, resume } =
-    useGalleryControls({
+    useImageControls({
       totalItems: images.length,
       autoPlayInterval,
     });
@@ -53,25 +56,7 @@ export const ImageGallery = ({
 
       {images.length > 1 && (
         <>
-          <button
-            onClick={prev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 text-white hover:scale-110 active:scale-95 transition-transform z-10"
-            aria-label="Anterior"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="16,5 8,12 16,19" />
-            </svg>
-          </button>
-
-          <button
-            onClick={next}
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-white hover:scale-110 active:scale-95 transition-transform z-10"
-            aria-label="Siguiente"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="8,5 16,12 8,19" />
-            </svg>
-          </button>
+          <ImageControls onPrev={prev} onNext={next} />
 
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur rounded-full px-3 py-1 flex gap-2 items-center shadow-lg">
             {images.map((_, index) => (
