@@ -14,4 +14,5 @@ public class Campus
 
     
     public ICollection<Building> Buildings { get; set; } = new List<Building>();
+    public ICollection<Room> StandAloneRooms { get; set; } = new List<Room>();
 }
