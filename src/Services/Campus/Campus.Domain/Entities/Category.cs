@@ -3,16 +3,12 @@ using System.Collections.Generic;
 
 namespace Campus.Domain.Entities;
 
-public class Building
+public class Category
 {
     public Guid Id { get; set; }
-    public Guid CampusId { get; set; }
     public string Name { get; set; } = string.Empty;
-    public int FloorsCount { get; set; } 
-    
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
+    public string Icon { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 
-    public Campus Campus { get; set; } = null!;
     public ICollection<Room> Rooms { get; set; } = new List<Room>();
 }
