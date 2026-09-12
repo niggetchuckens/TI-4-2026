@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
-    Navigator.pop(context, true);
+    Navigator.pop(context, {'ok': true, 'email': _emailCtrl.text.trim()});
   }
 
   @override
